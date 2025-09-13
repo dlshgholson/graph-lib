@@ -20,15 +20,17 @@
 #ifndef TYPES_H
 #define TYPES_H
 
-#include <atomic>
-
 #include "node.h"
 #include "edge.h"
+
+#include <atomic>
 
 namespace graphlib {
 
 using std::atomic<graphlib::Node> node_t;
 using std::atomic<graphlib::Edge> edge_t;
+
+using size_t id_t;
 
 }  // namespace graphlib
 

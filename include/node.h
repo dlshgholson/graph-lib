@@ -20,20 +20,28 @@
 #ifndef NODE_H
 #define NODE_H
 
+#include "graph.h"
+
 namespace graphlib {
 
 class Node {
 public:
     Node() {
-        id = counter++;
     }
+
+    Node(graphlib::id_t _id) {
+        id = _id;
+    }
+
+    graphlib::id_t getId() {
+        return id;
+    }
+
+    friend class graphlib::Graph;
 
 protected:
     // Unique id for node.
-    size_t id;
-
-    // Used to assign id's.
-    static size_t counter;
+    graphlib::id_t id;
 };
 
 }  // namespace graphlib

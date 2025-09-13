@@ -2,5 +2,6 @@
 title: TODO
 ---
 
-- [ ] Establish basic set of features.
-- [ ] Create general file structure.
+- [x] Establish basic set of features.
+- [x] Create general file structure.
+- [ ] Create makefile.

@@ -22,15 +22,26 @@
 
 #include "types.h"
 
+#include <pair>
+
 namespace graphlib {
 
 class Edge {
 public:
-    Edge() {
+    Edge(graphlib::id_t first_node_id, graphlib::id_t last_node_id) {
+        pair = std::pair<graphlib::id_t, graphlib::id_t>(first_node_id, last_node_id);
+    }
+
+    graphlib::id_t getId() {
+        return id;
     }
 
 protected:
-    std::pair<graphlib::node_t, graphlib::node_t> nodesPair;
+    // Holds a pair of Node ID's. As a result the edge is graph dependent.
+    std::pair<graphlib::id_t, graphlib::id_t> pair;
+
+    // Unique Edge ID within the graph.
+    graphlib::id_t id;
 };
 
 }  // namespace graphlib
