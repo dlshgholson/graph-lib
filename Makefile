@@ -6,7 +6,6 @@ objects = $(patsubst src/%.cpp,obj/%.o,$(sources))
 
 test_sources = $(wildcard tests/*.cpp)
 tests = $(patsubst %.cpp,%,$(test_sources))
-tests_o = $(patsubst %.cpp,%.o,$(test_sources))
 lib = lib/libGraph.a
 
 all: $(lib) $(tests)
@@ -23,16 +22,11 @@ lib:
 $(objects): obj/%.o: src/%.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
 
-#$(tests): $(tests_o)
-	#$(CC) $(CFLAGS) -Llib -lGraph -ggdb $< -o $@
-
-$(tests): $(tests_o)
-	$(CC) $(CFLAGS) -Llib -lGraph -ggdb $< -o $@
-
-$(tests_o): tests/%.o: tests/%.cpp
-	$(CC) $(CFLAGS) -ggdb -c $< -o $@
+$(tests): %: %.cpp
+	$(CC) $(CFLAGS) $< -Llib -lGraph -ggdb -o $@
 
 .PHONY: clean
 
 clean:
 	rm -rf obj lib
+	rm $(tests)
