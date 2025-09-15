@@ -1,5 +1,5 @@
 /*
- * types.h - Defines some commonly used types.
+ * test_2.h - Test file.
  *
  * Copyright (C) 2025 Daniel Gholson
  *
@@ -17,22 +17,31 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef TYPES_H
-#define TYPES_H
+#include <cassert>
+#include <iostream>
 
-//#include "node.h"
-//#include "edge.h"
+#include "graph.h"
 
-//#include <atomic>
-#include <cstddef>
+using namespace graphlib;
 
-namespace graphlib {
+int main(int argc, char *argv[]) {
+    std::cout << "Testing remove function." << std::endl;
 
-//using std::atomic<graphlib::Node> node_t;
-//using std::atomic<graphlib::Edge> edge_t;
+    Graph graph1(1);
 
-typedef std::size_t id_t;
+    Graph graph2(2);
+    graph2.addEdge(0, 1);
+    graph2.addEdge(1, 0);
+    graph2.removeNode(1);
 
-}  // namespace graphlib
+    assert(graph1 == graph2);
 
-#endif  // TYPES_H
+    graph2 = Graph(2);
+    graph2.addEdge(0, 1);
+    graph2.addEdge(1, 0);
+    graph2.removeNode(0);
+
+    assert(graph1 == graph2);
+
+    return 0;
+}

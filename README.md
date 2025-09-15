@@ -25,3 +25,5 @@ After starting the node class I realize we need a way to compare nodes without t
 We want to be able to extend nodes and edges to hold a value, but not initially require it. Thus I introduce ``ValuedNode`` and ``ValuedEdge`` which hold a value as a protected member.
 
 After thinking about it for some time, I realize it would be better to externally define the structure as a function \(f: E \to X\) where \(E\) is the set of edges and \(X\) is an arbitrary type. The same applies for nodes. This way we can equip the same graph with multiple structures without having multiple copies of the graph. So I get rid of ``ValuedNode`` and ``ValuedEdge`` and introduce ``GraphStructure``.
+
+I start adding some methods that start to clarify the interface of ``Graph``. Now that the most basic operations are completed, I can write some tests and make sure it compiles.

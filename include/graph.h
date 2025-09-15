@@ -20,6 +20,7 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 
+#include "edge.h"
 #include "node.h"
 #include "types.h"
 
@@ -52,42 +53,61 @@ public:
         }
     }
 
-    void addEdge(graphlib::id_t first_node_id, graphlib::id_t last_node_id) {
-        graphlib::Edge tempEdge(first_node_id, last_node_id);
+    void addEdge(id_t firstNodeId, id_t lastNodeId) {
+        Edge tempEdge(firstNodeId, lastNodeId);
         tempEdge.id = edgeCounter++;
 
         edges.push_back(tempEdge);
     }
 
-    size_t getNumNodes() {
+    size_t getNumNodes() const {
         return nodes.size();
     }
 
-    size_t getNumEdges() {
+    size_t getNumEdges() const {
         return edges.size();
     }
 
     /*
-     * Checks for graph equivalence. Two different graph objects can be
-     * equivalent if they have the same number of nodes, and the relationship
-     * between nodes is equivalent (permutation independent).
+     * If nodeId is within bounds, removes the node and all incident edges.
+     * Otherwise does nothing.
      */
-    bool operator==(const Graph &other);
+    void removeNode(id_t nodeId);
+
+    /*
+     * Checks that the number of nodes are equal and that edges have the same
+     * first and last nodes.
+     */
+    bool operator==(const Graph other) const;
+
+    bool operator!=(const Graph other) const {
+        return !(*this == other);
+    }
+
+    /*
+     * Checks for more loose graph equivalence that is independent of node
+     * permutation.
+     */
+    bool isEquivalentTo(const Graph &other) const;
+
+    bool isStronglyConnected() const;
+
+    bool isWeaklyConnected() const;
 
 protected:
     // Used vector since we typically don't add nodes at runtime, and want
     // quick indexing (access by ID).
-    std::vector<graphlib::node_t> nodes;
+    std::vector<Node> nodes;
 
     // Conversely, we use list here because edges are typically added a lot and
     // we don't need fast indexing.
-    std::list<graphlib::edge_t> edges;
+    std::list<Edge> edges;
 
     // Used to assign Node id's.
-    graphlib::id_t nodeCounter;
+    id_t nodeCounter;
 
     // Used to assign Edge id's.
-    graphlib::id_t edgeCounter;
+    id_t edgeCounter;
 };
 
 }  // namespace graphlib

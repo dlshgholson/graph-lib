@@ -20,28 +20,35 @@
 #ifndef NODE_H
 #define NODE_H
 
-#include "graph.h"
+#include "types.h"
 
 namespace graphlib {
+
+// Forward declaration to avoid circular includes.
+class Graph;
 
 class Node {
 public:
     Node() {
     }
 
-    Node(graphlib::id_t _id) {
+    Node(id_t _id) {
         id = _id;
     }
 
-    graphlib::id_t getId() {
+    id_t getId() const {
         return id;
     }
 
-    friend class graphlib::Graph;
+    bool operator==(Node other) const {
+        return id == other.id;
+    }
+
+    friend class Graph;
 
 protected:
     // Unique id for node.
-    graphlib::id_t id;
+    id_t id;
 };
 
 }  // namespace graphlib

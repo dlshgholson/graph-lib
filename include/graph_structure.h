@@ -1,5 +1,6 @@
 /*
- * types.h - Defines some commonly used types.
+ * graph_structure.h - Defines the base GraphStructure class, which allows us
+ * to easily extend the structure of a Graph object.
  *
  * Copyright (C) 2025 Daniel Gholson
  *
@@ -17,22 +18,34 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef TYPES_H
-#define TYPES_H
+#ifndef GRAPH_STRUCTURE_H
+#define GRAPH_STRUCTURE_H
 
-//#include "node.h"
-//#include "edge.h"
-
-//#include <atomic>
-#include <cstddef>
+#include "graph.h"
 
 namespace graphlib {
 
-//using std::atomic<graphlib::Node> node_t;
-//using std::atomic<graphlib::Edge> edge_t;
+/*
+ * Interface to extend the structure of a graph. The graph structure cannot
+ * exist on its own, and must be "attached" to an existing Graph by the
+ * constructor.
+ */
+class GraphStructure {
+public:
+    GraphStructure(graphlib::Graph *_graphPtr) {
+        assert(_graphPtr != nullptr);
+        graphPtr = _graphPtr;
+    }
 
-typedef std::size_t id_t;
+    bool isAttachedTo(graphlib::Graph *_graphPtr) {
+        return graphPtr == _graphPtr;
+    }
+
+protected:
+    // Pointer of attached graph.
+    graphlib::Graph *graphPtr;
+};
 
 }  // namespace graphlib
 
-#endif  // TYPES_H
+#endif  // GRAPH_STRUCTURE_H

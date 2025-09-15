@@ -22,26 +22,43 @@
 
 #include "types.h"
 
-#include <pair>
+#include <utility> // std::pair<>
 
 namespace graphlib {
 
+// Forward declaration to avoid circular includes.
+class Graph;
+
 class Edge {
 public:
-    Edge(graphlib::id_t first_node_id, graphlib::id_t last_node_id) {
-        pair = std::pair<graphlib::id_t, graphlib::id_t>(first_node_id, last_node_id);
+    Edge(id_t first_node_id, id_t last_node_id) {
+        pair = std::pair<id_t, id_t>(first_node_id, last_node_id);
     }
 
-    graphlib::id_t getId() {
+    id_t getId() const {
         return id;
     }
 
+    id_t getFirst() const {
+        return pair.first;
+    }
+
+    id_t getLast() const {
+        return pair.second;
+    }
+
+    bool operator==(const Edge other) const {
+        return id == other.id;
+    }
+
+    friend class Graph;
+
 protected:
     // Holds a pair of Node ID's. As a result the edge is graph dependent.
-    std::pair<graphlib::id_t, graphlib::id_t> pair;
+    std::pair<id_t, id_t> pair;
 
     // Unique Edge ID within the graph.
-    graphlib::id_t id;
+    id_t id;
 };
 
 }  // namespace graphlib
