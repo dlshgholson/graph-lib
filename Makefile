@@ -1,17 +1,17 @@
 CC = g++
-CFLAGS = -Wall -std=c++20 -iquote include
+CFLAGS = -Wall -ggdb -std=c++20 -iquote include
 
 sources = $(wildcard src/*.cpp)
 objects = $(patsubst src/%.cpp,obj/%.o,$(sources))
 
 test_sources = $(wildcard tests/*.cpp)
 tests = $(patsubst %.cpp,%,$(test_sources))
-lib = lib/libGraph.a
+corelib = lib/libGraph.a
 
-all: $(lib) $(tests)
+all: $(corelib) $(tests)
 
-$(lib): obj lib $(objects)
-	ar rcs $(lib) $(objects)
+$(corelib): obj lib $(objects)
+	ar rcs $(corelib) $(objects)
 
 obj:
 	mkdir -p obj
@@ -23,7 +23,7 @@ $(objects): obj/%.o: src/%.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(tests): %: %.cpp
-	$(CC) $(CFLAGS) $< -Llib -lGraph -ggdb -o $@
+	$(CC) $(CFLAGS) $< -Llib -lGraph -o $@
 
 .PHONY: clean
 

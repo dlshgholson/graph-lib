@@ -21,12 +21,12 @@
 #define GRAPH_H
 
 #include "edge.h"
+#include "map.h"
 #include "node.h"
 #include "types.h"
 
-#include <list>
 #include <memory>
-#include <vector>
+#include <iostream>
 
 namespace graphlib {
 
@@ -34,30 +34,26 @@ class Graph {
 public:
     Graph() {
         nodeCounter = 0;
+        edgeCounter = 0;
     }
 
     Graph(size_t numNodes) {
         nodeCounter = 0;
-        nodes.resize(numNodes);
-
-        for (size_t i = 0; i < numNodes; i++) {
-            nodes[i].id = nodeCounter++;
-        }
+        edgeCounter = 0;
+        addNumNodes(numNodes);
     }
 
     void addNumNodes(size_t n) {
-        nodes.resize(nodes.size() + n);
-
         for (size_t i = 0; i < n; i++) {
-            nodes[i].id = nodeCounter++;
+            nodes.set(nodeCounter + i, Node(nodeCounter + i));
         }
+
+        nodeCounter += n;
     }
 
     void addEdge(id_t firstNodeId, id_t lastNodeId) {
-        Edge tempEdge(firstNodeId, lastNodeId);
-        tempEdge.id = edgeCounter++;
-
-        edges.push_back(tempEdge);
+        edges.set(edgeCounter, Edge(firstNodeId, lastNodeId, edgeCounter));
+        edgeCounter++;
     }
 
     size_t getNumNodes() const {
@@ -84,24 +80,24 @@ public:
         return !(*this == other);
     }
 
+    std::ostream &print(std::ostream &os) const;
+
     /*
      * Checks for more loose graph equivalence that is independent of node
      * permutation.
      */
     bool isEquivalentTo(const Graph &other) const;
 
+    // TODO. Put these somewhere else (something like algos.h).
+    /*
     bool isStronglyConnected() const;
 
     bool isWeaklyConnected() const;
+    */
 
 protected:
-    // Used vector since we typically don't add nodes at runtime, and want
-    // quick indexing (access by ID).
-    std::vector<Node> nodes;
-
-    // Conversely, we use list here because edges are typically added a lot and
-    // we don't need fast indexing.
-    std::list<Edge> edges;
+    Map<id_t, Node> nodes;
+    Map<id_t, Edge> edges;
 
     // Used to assign Node id's.
     id_t nodeCounter;
@@ -109,6 +105,9 @@ protected:
     // Used to assign Edge id's.
     id_t edgeCounter;
 };
+
+// For printing.
+std::ostream &operator<<(std::ostream &os, const Graph &graph);
 
 }  // namespace graphlib
 

@@ -32,18 +32,18 @@ namespace graphlib {
  */
 class GraphStructure {
 public:
-    GraphStructure(graphlib::Graph *_graphPtr) {
+    GraphStructure(Graph *_graphPtr) {
         assert(_graphPtr != nullptr);
         graphPtr = _graphPtr;
     }
 
-    bool isAttachedTo(graphlib::Graph *_graphPtr) {
+    bool isAttachedTo(Graph *_graphPtr) {
         return graphPtr == _graphPtr;
     }
 
 protected:
     // Pointer of attached graph.
-    graphlib::Graph *graphPtr;
+    Graph *graphPtr;
 };
 
 }  // namespace graphlib

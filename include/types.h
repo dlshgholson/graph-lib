@@ -28,8 +28,8 @@
 
 namespace graphlib {
 
-//using std::atomic<graphlib::Node> node_t;
-//using std::atomic<graphlib::Edge> edge_t;
+//using std::atomic<Node> node_t;
+//using std::atomic<Edge> edge_t;
 
 typedef std::size_t id_t;
 

@@ -19,35 +19,33 @@
 
 #include "graph.h"
 
-#include <vector> // std::erase_if()
+#include <vector>
 
-void graphlib::Graph::removeNode(graphlib::id_t nodeId) {
+namespace graphlib {
+
+void Graph::removeNode(id_t nodeId) {
     // ID out of bounds.
-    if (nodeId < 0 || nodeId >= getNumNodes()) {
+    if (!nodes.contains(nodeId)) {
         return;
     }
 
-    // Remove node in question and decrement counter.
-    // Erase incident edges.
-    // Shift back ID of succeeding nodes.
+    // Erase node and incident edges. We intentionally do not shift ID's to
+    // maintain stability for external structures.
 
-    nodes.erase(nodes.begin() + nodeId);
-    nodeCounter--;
+    nodes.erase(nodeId);
 
-    // C++20 and up.
-    std::erase_if(edges, [&](graphlib::Edge edge) {
-            return (edge.getFirst() == nodeId) || (edge.getLast() == nodeId);
-            });
+    for (id_t id : edges.getKeys()) {
+        const Edge edge = edges.get(id);
 
-    for (auto &node : nodes) {
-        if (node.id > nodeId) {
-            node.id--;
+        if (edge.getFirst() == nodeId ||
+                edge.getLast() == nodeId) {
+            edges.erase(id);
         }
     }
 }
 
-bool graphlib::Graph::operator==(const graphlib::Graph other) const {
-    // std containers have == overload, but evaluation order suggests the
+bool Graph::operator==(const Graph other) const {
+    // Map containers have == overload, but evaluation order suggests the
     // entire node containers could be checked before simply comparing the
     // sizes of edge containers. So we manually do that first.
     if (getNumNodes() != other.getNumNodes() ||
@@ -58,19 +56,44 @@ bool graphlib::Graph::operator==(const graphlib::Graph other) const {
     return (nodes == other.nodes) && (edges == other.edges);
 }
 
-bool graphlib::Graph::isEquivalentTo(const graphlib::Graph &other) const {
-    // TODO.
-    return false;
+std::ostream &Graph::print(std::ostream &os) const {
+    os << "\n\n";
+    os << "====================\n";
+    os << "Number of nodes: " << getNumNodes() << ".\n";
+    os << "Number of edges: " << getNumEdges() << ".\n";
+
+    os << "\n";
+
+    for (auto &pair : nodes.getPairs()) {
+        id_t id = pair.first;
+
+        os << "Node ID: " << id << ".\n";
+    }
+
+    os << "\n";
+
+    for (auto &pair : edges.getPairs()) {
+        id_t id = pair.first;
+        const Edge edge = pair.second;
+
+        os << "Edge ID, first, last: ";
+        os << id << ", " << edge.getFirst() << ", " << edge.getLast() << ".\n";
+    }
+
+    os << "====================\n";
+    os << std::endl;
+
+    return os;
 }
 
-
-bool graphlib::Graph::isStronglyConnected() const {
+bool Graph::isEquivalentTo(const Graph &other) const {
     // TODO.
-    return false;
+    return true;
 }
 
-bool graphlib::Graph::isWeaklyConnected() const {
-    // TODO.
-    return false;
+// For printing.
+std::ostream &operator<<(std::ostream &os, const Graph &graph) {
+    return graph.print(os);
 }
 
+}  // namespace graphlib

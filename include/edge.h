@@ -22,6 +22,7 @@
 
 #include "types.h"
 
+#include <cassert>
 #include <utility> // std::pair<>
 
 namespace graphlib {
@@ -31,8 +32,20 @@ class Graph;
 
 class Edge {
 public:
+    Edge() {
+        // Somewhere in the stl mess under std::unordered_map indirectly
+        // requires a default constructor to compile, but this should never be
+        // ran.
+        assert(true);
+    }
+
     Edge(id_t first_node_id, id_t last_node_id) {
         pair = std::pair<id_t, id_t>(first_node_id, last_node_id);
+    }
+
+    Edge(id_t first_node_id, id_t last_node_id, id_t _id) {
+        pair = std::pair<id_t, id_t>(first_node_id, last_node_id);
+        id = _id;
     }
 
     id_t getId() const {
