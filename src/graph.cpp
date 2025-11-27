@@ -23,6 +23,9 @@
 
 namespace graphlib {
 
+/*
+ * Does nothing if nodeId is not found.
+ */
 void Graph::removeNode(id_t nodeId) {
     // ID out of bounds.
     if (!nodes.contains(nodeId)) {
@@ -44,10 +47,10 @@ void Graph::removeNode(id_t nodeId) {
     }
 }
 
+/*
+ * Strict equivalence, matching the ID of every edge and node.
+ */
 bool Graph::operator==(const Graph other) const {
-    // Map containers have == overload, but evaluation order suggests the
-    // entire node containers could be checked before simply comparing the
-    // sizes of edge containers. So we manually do that first.
     if (getNumNodes() != other.getNumNodes() ||
             getNumEdges() != other.getNumEdges()) {
         return false;
@@ -86,8 +89,30 @@ std::ostream &Graph::print(std::ostream &os) const {
     return os;
 }
 
+/*
+ * Checks for more loose graph equivalence that is independent of node
+ * and edge ID's.
+ */
 bool Graph::isEquivalentTo(const Graph &other) const {
+    // More formally, we can reframe this to another question:
+    // "Does there exist a bijection on the node and edge ID's that
+    // makes this graph equal to the other?"
+    //
+    // Note that transforming the ID of a node should also update the ID
+    // within any incident edges as well.
+    //
+    // I BELIEVE that the solution is to check if there are the same number
+    // of nodes of each degree.
+
     // TODO.
+
+    if (getNumNodes() != other.getNumNodes()) {
+        return false;
+    }
+    if (getNumEdges() != other.getNumEdges()) {
+        return false;
+    }
+
     return true;
 }
 

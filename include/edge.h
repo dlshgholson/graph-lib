@@ -36,7 +36,7 @@ public:
         // Somewhere in the stl mess under std::unordered_map indirectly
         // requires a default constructor to compile, but this should never be
         // ran.
-        assert(true);
+        assert(false);
     }
 
     Edge(id_t first_node_id, id_t last_node_id) {
@@ -61,7 +61,7 @@ public:
     }
 
     bool operator==(const Edge other) const {
-        return id == other.id;
+        return (id == other.id) && (pair == other.pair);
     }
 
     friend class Graph;

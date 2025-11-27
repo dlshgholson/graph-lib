@@ -33,3 +33,11 @@ I start to think more about how graph structures will be affected by altering th
 Thus I implement the ``Map`` adapter class, since ``std::map`` and ``std::unordered_map`` may not be optimal candidates and I might use a 3rd party implementation.
 
 Next I start thinking of how I'm going to organize the algorithms that operate on graphs. Since there could be potentially many algorithms, I want to keep them in a folder separate from the graph and graph structures.
+
+As I further develop the interface of ``Graph`` I realize a lot of comments become out of date due to behavioral changes of some functions. Now I understand what "The Clean Coder" was talking about.
+
+## The Great Redesign
+
+I got embarrassingly far before noticing all the shortcomings of the initial design. As I think about how to actually write algorithms for the graph structure, I realize graph traversal is quite difficult. In addition to that, there is the problem of desynchronization between the graph and its structure. A structure (e.g. edge weights) initialized on a graph is not updated when the graph is manipulated.
+
+To solve this, I make ``Graph`` an abstract data type whose interface contains traversal-related methods. I couldn't find a simple universal method to synchronize the graph and its external structures, so I make ``Graph`` a constant structure and completely delegate graph manipulation to the initial construction.

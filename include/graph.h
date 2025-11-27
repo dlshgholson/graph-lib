@@ -32,6 +32,13 @@ namespace graphlib {
 
 class Graph {
 public:
+    size_t getNumNodes();
+    std::vector<id_t> getChildren(id_t node);
+    std::vector<id_t> getParents(id_t node);
+};
+
+class Graph {
+public:
     Graph() {
         nodeCounter = 0;
         edgeCounter = 0;
@@ -65,14 +72,12 @@ public:
     }
 
     /*
-     * If nodeId is within bounds, removes the node and all incident edges.
-     * Otherwise does nothing.
+     * Does nothing if nodeId is not found.
      */
     void removeNode(id_t nodeId);
 
     /*
-     * Checks that the number of nodes are equal and that edges have the same
-     * first and last nodes.
+     * Strict equivalence, matching the ID of every edge and node.
      */
     bool operator==(const Graph other) const;
 
@@ -87,13 +92,6 @@ public:
      * permutation.
      */
     bool isEquivalentTo(const Graph &other) const;
-
-    // TODO. Put these somewhere else (something like algos.h).
-    /*
-    bool isStronglyConnected() const;
-
-    bool isWeaklyConnected() const;
-    */
 
 protected:
     Map<id_t, Node> nodes;

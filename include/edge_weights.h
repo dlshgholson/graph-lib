@@ -21,20 +21,17 @@
 #ifndef EDGE_WEIGHTS_H
 #define EDGE_WEIGHTS_H
 
-#include <vector>
-
 #include "graph_structure.h"
 
 namespace graphlib {
 
 template <typename T>
-class EdgeWeights {
+class EdgeWeights : public GraphStructure {
 public:
     T defaultWeight;
 
-    EdgeWeights() {
-        defaultWeight = T();
-    }
+    EdgeWeights(Graph *_graphPtr) :
+        GraphStructure{_graphPtr}, defaultWeight{T()} {}
 
     void setWeight(id_t edgeId, T weight) {
         if (!edgeExists(edgeId)) {
@@ -64,7 +61,7 @@ protected:
      * Checks the attatched graph if the edge actually exists.
      */
     bool edgeExists(id_t edgeId) {
-        return graph->edges.contains(edgeId);
+        return graphPtr->edges.contains(edgeId);
     }
 };
 

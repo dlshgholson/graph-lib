@@ -22,6 +22,8 @@
 
 #include "types.h"
 
+#include <vector>
+
 namespace graphlib {
 
 // Forward declaration to avoid circular includes.
@@ -40,6 +42,14 @@ public:
         return id;
     }
 
+    const std::vector<Node*> getChildren() const {
+        return children;
+    }
+
+    const std::vector<Node*> getParents() const {
+        return parents;
+    }
+
     bool operator==(Node other) const {
         return id == other.id;
     }
@@ -49,6 +59,8 @@ public:
 protected:
     // Unique id for node.
     id_t id;
+    
+    std::vector<Node*> children, parents;
 };
 
 }  // namespace graphlib
