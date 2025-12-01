@@ -27,11 +27,11 @@ namespace graphlib {
 
 class DefaultGraph : public Graph {
 public:
-    DefaultGraph(std::vector<std::vector<id_t>> _adjacencyList) {
+    DefaultGraph(std::vector<std::vector<node_id>> _adjacencyList) {
         // Verify validity.
         size_t numNodes = _adjacencyList.size();
         for (auto &list : _adjacencyList) {
-            for (id_t entry : list) {
+            for (node_id entry : list) {
                 if (entry >= numNodes) {
                     // Invalid entry.
                     // TODO.
@@ -59,10 +59,10 @@ public:
     /*
      * Checks if an edge between first and last exists.
      */
-    bool edgeExists(id_t first, id_t last) const override {
+    bool edgeExists(node_id first, node_id last) const override {
         auto list = adjacencyList.at(first);
 
-        for (id_t node : list) {
+        for (node_id node : list) {
             if (node == last) {
                 return true;
             }
@@ -71,27 +71,27 @@ public:
         return false;
     }
 
-    std::vector<std::pair<id_t, id_t>> getEdges(void) const override {
-        std::vector<std::pair<id_t, id_t>> edges;
+    std::vector<std::pair<node_id, node_id>> getEdges(void) const override {
+        std::vector<std::pair<node_id, node_id>> edges;
 
-        for (id_t i = 0; i < adjacencyList.size(); i++) {
-            for (id_t j : adjacencyList.at(i)) {
-                edges.push_back(std::pair<id_t, id_t>(i, j));
+        for (node_id i = 0; i < adjacencyList.size(); i++) {
+            for (node_id j : adjacencyList.at(i)) {
+                edges.push_back(std::pair<node_id, node_id>(i, j));
             }
         }
 
         return edges;
     }
 
-    std::vector<id_t> getChildren(id_t node) const override {
+    std::vector<node_id> getChildren(node_id node) const override {
         return adjacencyList.at(node);
     }
 
-    std::vector<id_t> getParents(id_t node) const override {
-        std::vector<id_t> parents;
+    std::vector<node_id> getParents(node_id node) const override {
+        std::vector<node_id> parents;
 
-        for (id_t i = 0; i < adjacencyList.size(); i++) {
-            for (id_t n : adjacencyList.at(i)) {
+        for (node_id i = 0; i < adjacencyList.size(); i++) {
+            for (node_id n : adjacencyList.at(i)) {
                 if (n == node) {
                     parents.push_back(i);
                     break;
@@ -104,7 +104,7 @@ public:
 
 private:
     // adjacencyList[i] holds the children of the i'th node.
-    std::vector<std::vector<id_t>> adjacencyList;
+    std::vector<std::vector<node_id>> adjacencyList;
 };
 
 }  // namespace graphlib

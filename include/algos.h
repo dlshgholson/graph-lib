@@ -39,11 +39,11 @@ bool isWeaklyConnected(const Graph &g);
  * Attempts to find a path between first and last using BFS. If no path exists
  * returns an empty path.
  */
-Path findPath(const Graph &g, id_t first, id_t last);
+Path findPath(const Graph &g, node_id first, node_id last);
 
 bool isAcyclic(const Graph &g);
 
-std::vector<id_t> topologicalSort(const Graph &g);
+std::vector<node_id> topologicalSort(const Graph &g);
 
 }  // namespace graphlib
 

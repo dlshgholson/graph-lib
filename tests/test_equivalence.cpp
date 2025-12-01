@@ -28,7 +28,7 @@
 
 using namespace graphlib;
 
-//typedef std::vector<std::vector<id_t>> AdjacencyList;
+//typedef std::vector<std::vector<node_id>> AdjacencyList;
 typedef std::vector<std::vector<std::size_t>> AdjacencyList;
 
 /*
@@ -56,7 +56,7 @@ AdjacencyList randomlyPermute(AdjacencyList adjList) {
     std::vector<std::size_t> permutation = randomPermutation(adjList.size());
 
     for (auto &list : adjList) {
-        for (id_t &node : list) {
+        for (node_id &node : list) {
             node = permutation.at(node);
         }
     }

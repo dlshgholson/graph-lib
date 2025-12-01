@@ -34,11 +34,11 @@ public:
     /*
      * Checks if an edge between first and last exists.
      */
-    virtual bool edgeExists(id_t first, id_t last) const = 0;
-    virtual std::vector<std::pair<id_t, id_t>> getEdges(void) const = 0;
+    virtual bool edgeExists(node_id first, node_id last) const = 0;
+    virtual std::vector<std::pair<node_id, node_id>> getEdges(void) const = 0;
 
-    virtual std::vector<id_t> getChildren(id_t node) const = 0;
-    virtual std::vector<id_t> getParents(id_t node) const = 0;
+    virtual std::vector<node_id> getChildren(node_id node) const = 0;
+    virtual std::vector<node_id> getParents(node_id node) const = 0;
 
     std::ostream &print(std::ostream &os) const;
 };

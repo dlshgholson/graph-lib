@@ -34,7 +34,7 @@ namespace graphlib {
 
 class Dijkstra {
 public:
-    Dijkstra(Graph *ptr, const EdgeWeights<float> _weights, id_t _start) :
+    Dijkstra(Graph *ptr, const EdgeWeights<float> _weights, node_id _start) :
             g{ptr}, weights{_weights}, start{_start} {
         unvisited.push(start);
         distances = std::vector(g->getNumNodes(), FLOAT_MAX);
@@ -45,9 +45,9 @@ public:
      * Builds the cache of shortest paths from start node to every other node.
      */
     void build() {
-        id_t current = getMinCostUnvisited();
+        node_id current = getMinCostUnvisited();
         while (current != INVALID_NODE) {
-            for (id_t node : g->getChildren(current)) {
+            for (node_id node : g->getChildren(current)) {
                 float newDistance = distances.at(current) +
                                     weights.getWeight(current, node);
 
@@ -67,9 +67,9 @@ public:
      * Attempts to find a min-cost path between first and last using Dijkstra's.
      * If no path exists returns an empty path.
      */
-    Path getMinCostPath(id_t node) {
+    Path getMinCostPath(node_id node) {
         Path path(node);
-        id_t current = node;
+        node_id current = node;
 
         while (current != start) {
             current = parents.at(current);
@@ -82,12 +82,12 @@ public:
     /*
      * Returns the distance (cost) between start and node.
      */
-    float getDistance(id_t node) {
+    float getDistance(node_id node) {
         float total = 0;
-        id_t current = node;
+        node_id current = node;
 
         while (current != start) {
-            id_t parent = parents.at(current);
+            node_id parent = parents.at(current);
 
             total += weights.getWeight(parent, current);
             current = parent;
@@ -101,13 +101,13 @@ private:
      * Attempts to find the closest unvisited node. If the unvisited set is
      * either empty or all distances are FLOAT_MAX, returns INVALID_NODE.
      */
-    id_t getMinCostUnvisited() {
+    node_id getMinCostUnvisited() {
         if (unvisited.size() == 0) {
             return INVALID_NODE;
         }
 
-        id_t candidate = *unvisited.begin();
-        for (id_t node : unvisited) {
+        node_id candidate = *unvisited.begin();
+        for (node_id node : unvisited) {
             if (distances.at(node) < distances.at(candidate)) {
                 candidate = node;
             }
@@ -123,10 +123,10 @@ private:
 protected:
     const Graph *g;
     const EdgeWeights<float> weights;
-    std::set<id_t> unvisited, visited;
+    std::set<node_id> unvisited, visited;
     std::vector<float> distances;
-    std::vector<id_t> parents;
-    const id_t start;
+    std::vector<node_id> parents;
+    const node_id start;
 };
 
 }  // namespace graphlib

@@ -33,7 +33,7 @@ std::ostream &Graph::print(std::ostream &os) const {
     os << "\n";
 
     for (auto &pair : nodes.getPairs()) {
-        id_t id = pair.first;
+        node_id id = pair.first;
 
         os << "Node ID: " << id << ".\n";
     }
@@ -41,7 +41,7 @@ std::ostream &Graph::print(std::ostream &os) const {
     os << "\n";
 
     for (auto &pair : edges.getPairs()) {
-        id_t id = pair.first;
+        node_id id = pair.first;
         const Edge edge = pair.second;
 
         os << "Edge ID, first, last: ";

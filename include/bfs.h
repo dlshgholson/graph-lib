@@ -33,7 +33,7 @@ namespace graphlib {
 
 class BFS {
 public:
-    BFS(const Graph &_g, id_t _start, bool strong) :
+    BFS(const Graph &_g, node_id _start, bool strong) :
         g{&_g}, start{_start}, strongTraversal{strong} {
         queue.push(start);
     }
@@ -42,7 +42,7 @@ public:
      * Resets the internal state to perform BFS from the start again.
      */
     void reset(void) {
-        queue = std::queue<id_t>();
+        queue = std::queue<node_id>();
         queue.push(start);
 
         visited.clear();
@@ -56,16 +56,16 @@ public:
      * new node not visited previously. After all nodes have been visited
      * returns INVALID_NODE.
      */
-    id_t next(void) {
+    node_id next(void) {
         if (queue.empty()) {
             return INVALID_NODE;
         }
 
-        id_t current = queue.front();
+        node_id current = queue.front();
         queue.pop();
         visited.insert(current);
 
-        for (id_t node : g->getChildren(current)) {
+        for (node_id node : g->getChildren(current)) {
             if (!visited.contains(node)) {
                 parents.at(node) = current;
                 queue.push(node);
@@ -73,7 +73,7 @@ public:
         }
 
         if (!strongTraversal) {
-            for (id_t node : g->getParents(current)) {
+            for (node_id node : g->getParents(current)) {
                 if (!visited.contains(node)) {
                     parents.at(node) = current;
                     queue.push(node);
@@ -87,7 +87,7 @@ public:
     /*
      * Returns the nodes that were visited so far.
      */
-    const std::set<id_t> getVisited(void) const {
+    const std::set<node_id> getVisited(void) const {
         return visited;
     }
 
@@ -95,22 +95,22 @@ public:
      * Given a visited node, returns the path from the start node to it.
      * If the node has not been visited, returns an empty vector.
      */
-    std::vector<id_t> getPath(id_t node) {
+    std::vector<node_id> getPath(node_id node) {
         if (!visited.contains(node)) {
-            return std::vector<id_t>();
+            return std::vector<node_id>();
         }
 
         // Use stack to grow the path quickly, then assign to vector in
         // reverse order.
-        std::stack<id_t> stack;
+        std::stack<node_id> stack;
         stack.push(node);
-        id_t current = node;
+        node_id current = node;
         while (current != start) {
             current = parents.at(current);
             stack.push(current);
         }
 
-        std::vector<id_t> path(stack.size());
+        std::vector<node_id> path(stack.size());
         for (int i = stack.size() - 1; i >= 0; i--) {
             path.at(i) = stack.top();
             stack.pop();
@@ -121,14 +121,14 @@ public:
 
 protected:
     const Graph *g;
-    id_t start;
+    node_id start;
 
-    std::queue<id_t> queue;
-    std::set<id_t> visited;
+    std::queue<node_id> queue;
+    std::set<node_id> visited;
 
     // Stores the visitor parent node of each visited node. This is used to
     // trace a visited node back to the start node.
-    std::vector<id_t> parents;
+    std::vector<node_id> parents;
 
     const bool strongTraversal; // If false, we can travel against directed edges.
 };

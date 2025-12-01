@@ -33,20 +33,20 @@ public:
     EdgeWeights(Graph *ptr, T _defaultWeight) :
         graphPtr{ptr}, defaultWeight{defaultWeight} {}
 
-    void setWeight(id_t first, id_t last, T weight) {
+    void setWeight(node_id first, node_id last, T weight) {
         if (!g.edgeExists(first, last)) {
             // TODO.
         }
 
-        weights.set(std::pair<id_t, id_t>(first, last), weight);
+        weights.set(std::pair<node_id, node_id>(first, last), weight);
     }
 
-    T getWeight(id_t first, id_t last) {
+    T getWeight(node_id first, node_id last) {
         if (!g.edgeExists(first, last)) {
             // TODO.
         }
 
-        auto edgeId = std::pair<id_t, id_t>(first, last);
+        auto edgeId = std::pair<node_id, node_id>(first, last);
         if (weights.contains(edgeId)) {
             return weights.get(edgeId);
         }
@@ -61,12 +61,12 @@ protected:
      */
     const Graph *g;
 
-    Map<std::pair<id_t, id_t>, T> weights;
+    Map<std::pair<node_id, node_id>, T> weights;
 
     /*
      * Checks the attatched graph if the edge actually exists.
      */
-    bool edgeExists(id_t first, id_t last) {
+    bool edgeExists(node_id first, node_id last) {
         return g.edgeExists(first, last);
     }
 };

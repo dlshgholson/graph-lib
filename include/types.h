@@ -30,9 +30,9 @@ namespace graphlib {
 typedef std::size_t node_id;
 #define INVALID_NODE std::numeric_limits<std::size_t>::max()
 
-typedef std::pair<id_t, id_t> Edge;
+typedef std::pair<node_id, node_id> Edge;
 
-typedef std::vector<id_t> Path;
+typedef std::vector<node_id> Path;
 
 }  // namespace graphlib
 
