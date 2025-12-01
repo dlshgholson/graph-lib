@@ -8,15 +8,10 @@ title: TODO
 - [x] Compiles, but fix linker error(s).
 - [ ] Complete ``isEquivalentTo()``.
 - [ ] Add the following algorithms:
-    - [ ] ``bool isStronglyConnected(Graph)``
-    - [ ] ``bool isWeaklyConnected(Graph)``
-    - [ ] The following BFS variants:
-        - [ ] ``Graph bfs(Graph, id_t startNode, size_t radius)``
-            - Returns the connected component formed by all discovered nodes.
-        - [ ] ``std::vector<Node> bfs(Graph, id_t startNode, id_t targetNode)``
-            - Returns the path, if found, from the start to target node. Returns an empty vector otherwise.
-    - [ ] Repeat for DFS.
+    - [x] ``bool isStronglyConnected(Graph)``
+    - [x] ``bool isWeaklyConnected(Graph)``
+    - [x] BFS.
+    - [ ] DFS.
     - [ ] ``bool isAcyclic(Graph)``.
     - [ ] ``std::vector<Node> topologicalSort(Graph)``.
-    - [ ] Dijkstra's shortest path.
-        - [ ] ``std::vector<Node> bfs(Graph, id_t startNode, id_t targetNode)``
+    - [x] Dijkstra's shortest path.

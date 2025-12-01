@@ -21,32 +21,33 @@
 #ifndef EDGE_WEIGHTS_H
 #define EDGE_WEIGHTS_H
 
-#include "graph_structure.h"
-
 namespace graphlib {
 
 template <typename T>
-class EdgeWeights : public GraphStructure {
+class EdgeWeights {
 public:
     T defaultWeight;
 
-    EdgeWeights(Graph *_graphPtr) :
-        GraphStructure{_graphPtr}, defaultWeight{T()} {}
+    EdgeWeights(Graph *ptr) :
+        graphPtr{ptr}, defaultWeight{T()} {}
+    EdgeWeights(Graph *ptr, T _defaultWeight) :
+        graphPtr{ptr}, defaultWeight{defaultWeight} {}
 
-    void setWeight(id_t edgeId, T weight) {
-        if (!edgeExists(edgeId)) {
+    void setWeight(id_t first, id_t last, T weight) {
+        if (!g.edgeExists(first, last)) {
             // TODO.
         }
 
-        weights.set(edgeId, weight);
+        weights.set(std::pair<id_t, id_t>(first, last), weight);
     }
 
-    T getWeight(id_t edgeId) {
-        if (!edgeExists(edgeId)) {
+    T getWeight(id_t first, id_t last) {
+        if (!g.edgeExists(first, last)) {
             // TODO.
         }
 
-        if weights.contains(edgeId) {
+        auto edgeId = std::pair<id_t, id_t>(first, last);
+        if (weights.contains(edgeId)) {
             return weights.get(edgeId);
         }
         else {
@@ -55,13 +56,18 @@ public:
     }
 
 protected:
-    Map<id_t, T> weights;
+    /*
+     * Points to the graph this structure is connected to.
+     */
+    const Graph *g;
+
+    Map<std::pair<id_t, id_t>, T> weights;
 
     /*
      * Checks the attatched graph if the edge actually exists.
      */
-    bool edgeExists(id_t edgeId) {
-        return graphPtr->edges.contains(edgeId);
+    bool edgeExists(id_t first, id_t last) {
+        return g.edgeExists(first, last);
     }
 };
 

@@ -1,5 +1,5 @@
 /*
- * node.h - Defines the base Node class.
+ * connected.cpp - Definition for the connected functions.
  *
  * Copyright (C) 2025 Daniel Gholson
  *
@@ -17,52 +17,25 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef NODE_H
-#define NODE_H
-
-#include "types.h"
-
-#include <vector>
+#include "algos.h"
+#include "bfs.h"
 
 namespace graphlib {
 
-// Forward declaration to avoid circular includes.
-class Graph;
+bool isStronglyConnected(const Graph &g) {
+    BFS bfs(&g, 0, 1);
+    while (bfs.next() != INVALID_NODE)
+        ;
 
-class Node {
-public:
-    Node() {
-    }
+    return (bfs.getVisited().size() == g->getNumNodes());
+}
 
-    Node(id_t _id) {
-        id = _id;
-    }
+bool isWeaklyConnected(const Graph &g) {
+    BFS bfs(&g, 0, 0);
+    while (bfs.next() != INVALID_NODE)
+        ;
 
-    id_t getId() const {
-        return id;
-    }
-
-    const std::vector<Node*> getChildren() const {
-        return children;
-    }
-
-    const std::vector<Node*> getParents() const {
-        return parents;
-    }
-
-    bool operator==(Node other) const {
-        return id == other.id;
-    }
-
-    friend class Graph;
-
-protected:
-    // Unique id for node.
-    id_t id;
-    
-    std::vector<Node*> children, parents;
-};
+    return (bfs.getVisited().size() == g->getNumNodes());
+}
 
 }  // namespace graphlib
-
-#endif  // NODE_H

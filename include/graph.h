@@ -20,88 +20,27 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 
-#include "edge.h"
-#include "map.h"
-#include "node.h"
 #include "types.h"
 
-#include <memory>
 #include <iostream>
 
 namespace graphlib {
 
 class Graph {
 public:
-    size_t getNumNodes();
+    size_t getNumNodes(void);
+    size_t getNumEdges(void);
+
+    /*
+     * Checks if an edge between first and last exists.
+     */
+    bool edgeExists(id_t first, id_t last);
+    std::vector<std::pair<id_t, id_t>> getEdges(void);
+
     std::vector<id_t> getChildren(id_t node);
     std::vector<id_t> getParents(id_t node);
-};
-
-class Graph {
-public:
-    Graph() {
-        nodeCounter = 0;
-        edgeCounter = 0;
-    }
-
-    Graph(size_t numNodes) {
-        nodeCounter = 0;
-        edgeCounter = 0;
-        addNumNodes(numNodes);
-    }
-
-    void addNumNodes(size_t n) {
-        for (size_t i = 0; i < n; i++) {
-            nodes.set(nodeCounter + i, Node(nodeCounter + i));
-        }
-
-        nodeCounter += n;
-    }
-
-    void addEdge(id_t firstNodeId, id_t lastNodeId) {
-        edges.set(edgeCounter, Edge(firstNodeId, lastNodeId, edgeCounter));
-        edgeCounter++;
-    }
-
-    size_t getNumNodes() const {
-        return nodes.size();
-    }
-
-    size_t getNumEdges() const {
-        return edges.size();
-    }
-
-    /*
-     * Does nothing if nodeId is not found.
-     */
-    void removeNode(id_t nodeId);
-
-    /*
-     * Strict equivalence, matching the ID of every edge and node.
-     */
-    bool operator==(const Graph other) const;
-
-    bool operator!=(const Graph other) const {
-        return !(*this == other);
-    }
 
     std::ostream &print(std::ostream &os) const;
-
-    /*
-     * Checks for more loose graph equivalence that is independent of node
-     * permutation.
-     */
-    bool isEquivalentTo(const Graph &other) const;
-
-protected:
-    Map<id_t, Node> nodes;
-    Map<id_t, Edge> edges;
-
-    // Used to assign Node id's.
-    id_t nodeCounter;
-
-    // Used to assign Edge id's.
-    id_t edgeCounter;
 };
 
 // For printing.

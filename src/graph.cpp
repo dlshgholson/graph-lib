@@ -1,5 +1,5 @@
 /*
- * graph.h - Defines the base graph class.
+ * graph.cpp - Definitions for graph.h.
  *
  * Copyright (C) 2025 Daniel Gholson
  *
@@ -22,42 +22,6 @@
 #include <vector>
 
 namespace graphlib {
-
-/*
- * Does nothing if nodeId is not found.
- */
-void Graph::removeNode(id_t nodeId) {
-    // ID out of bounds.
-    if (!nodes.contains(nodeId)) {
-        return;
-    }
-
-    // Erase node and incident edges. We intentionally do not shift ID's to
-    // maintain stability for external structures.
-
-    nodes.erase(nodeId);
-
-    for (id_t id : edges.getKeys()) {
-        const Edge edge = edges.get(id);
-
-        if (edge.getFirst() == nodeId ||
-                edge.getLast() == nodeId) {
-            edges.erase(id);
-        }
-    }
-}
-
-/*
- * Strict equivalence, matching the ID of every edge and node.
- */
-bool Graph::operator==(const Graph other) const {
-    if (getNumNodes() != other.getNumNodes() ||
-            getNumEdges() != other.getNumEdges()) {
-        return false;
-    }
-
-    return (nodes == other.nodes) && (edges == other.edges);
-}
 
 std::ostream &Graph::print(std::ostream &os) const {
     os << "\n\n";
@@ -87,33 +51,6 @@ std::ostream &Graph::print(std::ostream &os) const {
     os << std::endl;
 
     return os;
-}
-
-/*
- * Checks for more loose graph equivalence that is independent of node
- * and edge ID's.
- */
-bool Graph::isEquivalentTo(const Graph &other) const {
-    // More formally, we can reframe this to another question:
-    // "Does there exist a bijection on the node and edge ID's that
-    // makes this graph equal to the other?"
-    //
-    // Note that transforming the ID of a node should also update the ID
-    // within any incident edges as well.
-    //
-    // I BELIEVE that the solution is to check if there are the same number
-    // of nodes of each degree.
-
-    // TODO.
-
-    if (getNumNodes() != other.getNumNodes()) {
-        return false;
-    }
-    if (getNumEdges() != other.getNumEdges()) {
-        return false;
-    }
-
-    return true;
 }
 
 // For printing.

@@ -1,6 +1,6 @@
 /*
- * graph_structure.h - Defines the base GraphStructure class, which allows us
- * to easily extend the structure of a Graph object.
+ * algos.h - Declares common algorithms that don't depend on structure.
+ * Algorithms that rely on additional structure will be put in other files.
  *
  * Copyright (C) 2025 Daniel Gholson
  *
@@ -18,34 +18,33 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef GRAPH_STRUCTURE_H
-#define GRAPH_STRUCTURE_H
+#ifndef ALGOS_H
+#define ALGOS_H
 
 #include "graph.h"
 
 namespace graphlib {
 
 /*
- * Interface to extend the structure of a graph. The graph structure cannot
- * exist on its own, and must be "attached" to an existing Graph by the
- * constructor.
+ * Checks for loose graph equivalence that is independent of node
+ * permutation.
  */
-class GraphStructure {
-public:
-    GraphStructure(Graph *_graphPtr) {
-        assert(_graphPtr != nullptr);
-        graphPtr = _graphPtr;
-    }
+bool isEquivalent(const Graph &g1, const Graph &g2);
 
-    bool isAttachedTo(Graph *_graphPtr) {
-        return graphPtr == _graphPtr;
-    }
+bool isStronglyConnected(const Graph &g);
 
-protected:
-    // Pointer of attached graph.
-    Graph *graphPtr;
-};
+bool isWeaklyConnected(const Graph &g);
+
+/*
+ * Attempts to find a path between first and last using BFS. If no path exists
+ * returns an empty path.
+ */
+Path findPath(const Graph &g, id_t first, id_t last);
+
+bool isAcyclic(const Graph &g);
+
+std::vector<id_t> topologicalSort(const Graph &g);
 
 }  // namespace graphlib
 
-#endif  // GRAPH_STRUCTURE_H
+#endif  // ALGOS_H

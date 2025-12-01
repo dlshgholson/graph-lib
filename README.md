@@ -41,3 +41,5 @@ As I further develop the interface of ``Graph`` I realize a lot of comments beco
 I got embarrassingly far before noticing all the shortcomings of the initial design. As I think about how to actually write algorithms for the graph structure, I realize graph traversal is quite difficult. In addition to that, there is the problem of desynchronization between the graph and its structure. A structure (e.g. edge weights) initialized on a graph is not updated when the graph is manipulated.
 
 To solve this, I make ``Graph`` an abstract data type whose interface contains traversal-related methods. I couldn't find a simple universal method to synchronize the graph and its external structures, so I make ``Graph`` a constant structure and completely delegate graph manipulation to the initial construction.
+
+While I further abstract the ``Graph`` class, I un-abstract how nodes and edges are referred to. Since the graph will not be further modified after creation, nodes can be represented by an unsigned integer from ``0`` to ``numNodes - 1``. Edges are a trivial pair of nodes, and there is no need to make an entire class for it.

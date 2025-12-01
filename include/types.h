@@ -20,18 +20,19 @@
 #ifndef TYPES_H
 #define TYPES_H
 
-//#include "node.h"
-//#include "edge.h"
-
-//#include <atomic>
-#include <cstddef>
+#include <cstddef>  // std::size_t
+#include <limits>
+#include <utility>  // std::pair
+#include <vector>   // std::vector
 
 namespace graphlib {
 
-//using std::atomic<Node> node_t;
-//using std::atomic<Edge> edge_t;
-
 typedef std::size_t id_t;
+#define INVALID_NODE std::numeric_limits<std::size_t>::max()
+
+typedef std::pair<id_t, id_t> Edge;
+
+typedef std::vector<id_t> Path;
 
 }  // namespace graphlib
 
