@@ -23,19 +23,19 @@
 namespace graphlib {
 
 bool isStronglyConnected(const Graph &g) {
-    BFS bfs(&g, 0, 1);
+    BFS bfs(g, 0, 1);
     while (bfs.next() != INVALID_NODE)
         ;
 
-    return (bfs.getVisited().size() == g->getNumNodes());
+    return (bfs.getVisited().size() == g.getNumNodes());
 }
 
 bool isWeaklyConnected(const Graph &g) {
-    BFS bfs(&g, 0, 0);
+    BFS bfs(g, 0, 0);
     while (bfs.next() != INVALID_NODE)
         ;
 
-    return (bfs.getVisited().size() == g->getNumNodes());
+    return (bfs.getVisited().size() == g.getNumNodes());
 }
 
 }  // namespace graphlib

@@ -27,7 +27,7 @@
 
 namespace graphlib {
 
-typedef std::size_t id_t;
+typedef std::size_t node_id;
 #define INVALID_NODE std::numeric_limits<std::size_t>::max()
 
 typedef std::pair<id_t, id_t> Edge;

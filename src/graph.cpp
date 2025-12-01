@@ -23,6 +23,7 @@
 
 namespace graphlib {
 
+/*
 std::ostream &Graph::print(std::ostream &os) const {
     os << "\n\n";
     os << "====================\n";
@@ -52,6 +53,7 @@ std::ostream &Graph::print(std::ostream &os) const {
 
     return os;
 }
+*/
 
 // For printing.
 std::ostream &operator<<(std::ostream &os, const Graph &graph) {

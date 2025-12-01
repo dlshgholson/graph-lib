@@ -30,8 +30,8 @@ public:
     DefaultGraph(std::vector<std::vector<id_t>> _adjacencyList) {
         // Verify validity.
         size_t numNodes = _adjacencyList.size();
-        for (list : _adjacencyList) {
-            for (entry : list) {
+        for (auto &list : _adjacencyList) {
+            for (id_t entry : list) {
                 if (entry >= numNodes) {
                     // Invalid entry.
                     // TODO.
@@ -40,14 +40,14 @@ public:
         }
 
         // Copy argument.
-        adjacencyList = std::vector<std::vector<id_t>>(_adjacencyList);
+        adjacencyList = _adjacencyList;
     }
 
-    size_t getNumNodes(void) override {
+    size_t getNumNodes(void) const override {
         return adjacencyList.size();
     }
 
-    size_t getNumEdges(void) override {
+    size_t getNumEdges(void) const override {
         size_t total = 0;
         for (auto list : adjacencyList) {
             total += list.size();
@@ -59,7 +59,7 @@ public:
     /*
      * Checks if an edge between first and last exists.
      */
-    bool edgeExists(id_t first, id_t last) override {
+    bool edgeExists(id_t first, id_t last) const override {
         auto list = adjacencyList.at(first);
 
         for (id_t node : list) {
@@ -71,7 +71,7 @@ public:
         return false;
     }
 
-    std::vector<std::pair<id_t, id_t>> getEdges(void) override {
+    std::vector<std::pair<id_t, id_t>> getEdges(void) const override {
         std::vector<std::pair<id_t, id_t>> edges;
 
         for (id_t i = 0; i < adjacencyList.size(); i++) {
@@ -83,11 +83,11 @@ public:
         return edges;
     }
 
-    std::vector<id_t> getChildren(id_t node) override {
+    std::vector<id_t> getChildren(id_t node) const override {
         return adjacencyList.at(node);
     }
 
-    std::vector<id_t> getParents(id_t node) override {
+    std::vector<id_t> getParents(id_t node) const override {
         std::vector<id_t> parents;
 
         for (id_t i = 0; i < adjacencyList.size(); i++) {

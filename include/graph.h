@@ -28,17 +28,17 @@ namespace graphlib {
 
 class Graph {
 public:
-    size_t getNumNodes(void);
-    size_t getNumEdges(void);
+    virtual size_t getNumNodes(void) const = 0;
+    virtual size_t getNumEdges(void) const = 0;
 
     /*
      * Checks if an edge between first and last exists.
      */
-    bool edgeExists(id_t first, id_t last);
-    std::vector<std::pair<id_t, id_t>> getEdges(void);
+    virtual bool edgeExists(id_t first, id_t last) const = 0;
+    virtual std::vector<std::pair<id_t, id_t>> getEdges(void) const = 0;
 
-    std::vector<id_t> getChildren(id_t node);
-    std::vector<id_t> getParents(id_t node);
+    virtual std::vector<id_t> getChildren(id_t node) const = 0;
+    virtual std::vector<id_t> getParents(id_t node) const = 0;
 
     std::ostream &print(std::ostream &os) const;
 };

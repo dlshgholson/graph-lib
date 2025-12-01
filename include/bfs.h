@@ -33,8 +33,8 @@ namespace graphlib {
 
 class BFS {
 public:
-    BFS(Graph *ptr, id_t start, bool strong) :
-        g{ptr}, strongTraversal{strong} {
+    BFS(const Graph &_g, id_t _start, bool strong) :
+        g{&_g}, start{_start}, strongTraversal{strong} {
         queue.push(start);
     }
 
@@ -56,12 +56,13 @@ public:
      * new node not visited previously. After all nodes have been visited
      * returns INVALID_NODE.
      */
-    id_T next(void) {
+    id_t next(void) {
         if (queue.empty()) {
             return INVALID_NODE;
         }
 
-        id_t current = queue.pop();
+        id_t current = queue.front();
+        queue.pop();
         visited.insert(current);
 
         for (id_t node : g->getChildren(current)) {
@@ -101,7 +102,8 @@ public:
 
         // Use stack to grow the path quickly, then assign to vector in
         // reverse order.
-        std::stack<id_t> stack(node);
+        std::stack<id_t> stack;
+        stack.push(node);
         id_t current = node;
         while (current != start) {
             current = parents.at(current);
@@ -110,7 +112,8 @@ public:
 
         std::vector<id_t> path(stack.size());
         for (int i = stack.size() - 1; i >= 0; i--) {
-            path.at(i) = stack.pop();
+            path.at(i) = stack.top();
+            stack.pop();
         }
 
         return path;
@@ -118,6 +121,7 @@ public:
 
 protected:
     const Graph *g;
+    id_t start;
 
     std::queue<id_t> queue;
     std::set<id_t> visited;
