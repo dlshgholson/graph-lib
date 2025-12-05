@@ -84,13 +84,20 @@ std::vector<std::size_t> randomPermutation(std::size_t n) {
 AdjacencyList randomlyPermute(AdjacencyList adjList) {
     std::vector<std::size_t> permutation = randomPermutation(adjList.size());
 
+    // Apply permutation to edges.
     for (auto &list : adjList) {
         for (node_id &node : list) {
             node = permutation.at(node);
         }
     }
 
-    return adjList;
+    // Apply permutation to nodes.
+    AdjacencyList newAdjList(adjList.size());
+    for (node_id i = 0; i < adjList.size(); i++) {
+        newAdjList.at(permutation.at(i)) = adjList.at(i);
+    }
+
+    return newAdjList;
 }
 
 /*

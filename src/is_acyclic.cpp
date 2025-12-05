@@ -23,6 +23,8 @@
 
 #include "algos.h"
 
+#include <iostream>
+
 namespace graphlib {
 
 /*

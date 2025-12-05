@@ -27,10 +27,10 @@ namespace graphlib {
 
 class DefaultGraph : public Graph {
 public:
-    DefaultGraph(std::vector<std::vector<node_id>> _adjacencyList) {
+    DefaultGraph(std::vector<std::vector<node_id>> _adjList) {
         // Verify validity.
-        size_t numNodes = _adjacencyList.size();
-        for (auto &list : _adjacencyList) {
+        size_t numNodes = _adjList.size();
+        for (auto &list : _adjList) {
             for (node_id entry : list) {
                 if (entry >= numNodes) {
                     // Invalid entry.
@@ -40,16 +40,16 @@ public:
         }
 
         // Copy argument.
-        adjacencyList = _adjacencyList;
+        adjList = _adjList;
     }
 
     size_t getNumNodes(void) const override {
-        return adjacencyList.size();
+        return adjList.size();
     }
 
     size_t getNumEdges(void) const override {
         size_t total = 0;
-        for (auto list : adjacencyList) {
+        for (auto list : adjList) {
             total += list.size();
         }
 
@@ -60,7 +60,7 @@ public:
      * Checks if an edge between first and last exists.
      */
     bool edgeExists(node_id first, node_id last) const override {
-        auto list = adjacencyList.at(first);
+        auto list = adjList.at(first);
 
         for (node_id node : list) {
             if (node == last) {
@@ -74,8 +74,8 @@ public:
     std::vector<std::pair<node_id, node_id>> getEdges(void) const override {
         std::vector<std::pair<node_id, node_id>> edges;
 
-        for (node_id i = 0; i < adjacencyList.size(); i++) {
-            for (node_id j : adjacencyList.at(i)) {
+        for (node_id i = 0; i < adjList.size(); i++) {
+            for (node_id j : adjList.at(i)) {
                 edges.push_back(std::pair<node_id, node_id>(i, j));
             }
         }
@@ -84,14 +84,14 @@ public:
     }
 
     std::vector<node_id> getChildren(node_id node) const override {
-        return adjacencyList.at(node);
+        return adjList.at(node);
     }
 
     std::vector<node_id> getParents(node_id node) const override {
         std::vector<node_id> parents;
 
-        for (node_id i = 0; i < adjacencyList.size(); i++) {
-            for (node_id n : adjacencyList.at(i)) {
+        for (node_id i = 0; i < adjList.size(); i++) {
+            for (node_id n : adjList.at(i)) {
                 if (n == node) {
                     parents.push_back(i);
                     break;
@@ -103,8 +103,8 @@ public:
     }
 
 private:
-    // adjacencyList[i] holds the children of the i'th node.
-    std::vector<std::vector<node_id>> adjacencyList;
+    // adjList[i] holds the children of the i'th node.
+    std::vector<std::vector<node_id>> adjList;
 };
 
 }  // namespace graphlib

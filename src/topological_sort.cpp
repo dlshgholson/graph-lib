@@ -22,6 +22,8 @@
 #include <vector>
 #include <set>
 
+#include <iostream>
+
 namespace graphlib {
 
 /*
