@@ -34,6 +34,32 @@ using namespace graphlib;
 
 typedef std::vector<std::vector<node_id>> AdjacencyList;
 
+bool edgeInAdjList(AdjacencyList &adjList, node_id first, node_id last) {
+    for (node_id i : adjList.at(first)) {
+        if (i == last) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+/*
+ * Randomly adds edges in place with probability p.
+ */
+void randomlyAddEdges(AdjacencyList &adjList, float p) {
+    std::random_device rd;
+    std::bernoulli_distribution distribution(p);
+
+    for (node_id i = 0; i < adjList.size(); i++) {
+        for (node_id j = 0; j < adjList.size(); j++) {
+            if (!edgeInAdjList(adjList, i, j) && distribution(rd)) {
+                adjList.at(i).push_back(j);
+            }
+        }
+    }
+}
+
 /*
  * Given a positive integer n, generates a random permutation of integers from
  * 0 to n. For example, when n = 4 a possible output is [3, 1, 2, 0].

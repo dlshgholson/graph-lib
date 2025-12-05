@@ -19,16 +19,6 @@
 
 #include "test_common.h"
 
-bool edgeInAdjList(AdjacencyList &adjList, node_id first, node_id last) {
-    for (node_id i : adjList.at(first)) {
-        if (i == last) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
 /*
  * Randomly generates an adjacency list for a connected graph size n. Whether
  * the graph is strongly or weakly connected is determined by strong, and p is
@@ -36,7 +26,6 @@ bool edgeInAdjList(AdjacencyList &adjList, node_id first, node_id last) {
  */
 AdjacencyList generateConnected(std::size_t n, bool strong, float p) {
     std::random_device rd;
-    std::bernoulli_distribution distribution(p);
     std::bernoulli_distribution coinToss(0.5);
 
     // Every connected graph has a spanning tree, we generate it here and
@@ -65,14 +54,7 @@ AdjacencyList generateConnected(std::size_t n, bool strong, float p) {
         }
     }
 
-    // Randomly add edges.
-    for (node_id i = 0; i < adjList.size(); i++) {
-        for (node_id j = 0; j < adjList.size(); j++) {
-            if (!edgeInAdjList(adjList, i, j) && distribution(rd)) {
-                adjList.at(i).push_back(j);
-            }
-        }
-    }
+    randomlyAddEdges(adjList, p);
 
     return adjList;
 }
