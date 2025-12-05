@@ -35,6 +35,7 @@ class BFS {
 public:
     BFS(const Graph &_g, node_id _start, bool strong) :
         g{&_g}, start{_start}, strongTraversal{strong} {
+        parents.resize(_g.getNumNodes());
         queue.push(start);
     }
 

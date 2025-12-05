@@ -1,6 +1,9 @@
 /*
- * algos.h - Declares common algorithms that don't depend on structure.
- * Algorithms that rely on additional structure will be put in other files.
+ * is_acyclic.cpp - Definition for the isAcyclic function. Despite being very
+ * short, the definition needs to be in a .cpp file to avoid multiple
+ * definition linker errors. Although "algos.h" uses header guards, it is
+ * included in both definition files and test files, which are compiled
+ * separately.
  *
  * Copyright (C) 2025 Daniel Gholson
  *
@@ -18,27 +21,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef ALGOS_H
-#define ALGOS_H
-
-#include "graph.h"
+#include "algos.h"
 
 namespace graphlib {
 
-bool isStronglyConnected(const Graph &g);
-
-bool isWeaklyConnected(const Graph &g);
-
 /*
- * Attempts to find a path between first and last using BFS. If no path exists
- * returns an empty path.
+ * Returns whether the graph is acyclic or not.
  */
-Path findPath(const Graph &g, node_id first, node_id last);
-
-bool isAcyclic(const Graph &g);
-
-std::vector<node_id> topologicalSort(const Graph &g);
+bool isAcyclic(const Graph &g) {
+    return (topologicalSort(g).size() != 0);
+}
 
 }  // namespace graphlib
-
-#endif  // ALGOS_H

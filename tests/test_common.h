@@ -1,5 +1,5 @@
 /*
- * test_equivalence.h - Test the equivalence function.
+ * test_common.h - Common testing utilities.
  *
  * Copyright (C) 2025 Daniel Gholson
  *
@@ -17,19 +17,22 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#ifndef TEST_COMMON_H
+#define TEST_COMMON_H
+
 #include <algorithm> // std::shuffle
 #include <cassert>
 #include <iostream>
 #include <random>    // std::random_device, std::mt19937
 #include <vector>
 
+#include "algos.h"
 #include "default_graph.h"
 #include "types.h"
 
 using namespace graphlib;
 
-//typedef std::vector<std::vector<node_id>> AdjacencyList;
-typedef std::vector<std::vector<std::size_t>> AdjacencyList;
+typedef std::vector<std::vector<node_id>> AdjacencyList;
 
 /*
  * Given a positive integer n, generates a random permutation of integers from
@@ -85,18 +88,4 @@ AdjacencyList randomAdjacencyList(std::size_t n, float p) {
     return adjList;
 }
 
-int main(int argc, char *argv[]) {
-    std::cout << "Testing basic graph equivalence." << std::endl;
-
-    for (int i = 0; i < 100; i++) {
-        AdjacencyList adjList = randomAdjacencyList(30, 0.5);
-        DefaultGraph graph1 = DefaultGraph(adjList);
-        
-        for (int j = 0; j < 100; j++) {
-            DefaultGraph graph2 = DefaultGraph(randomlyPermute(adjList));
-            assert(equivalent(graph1, graph2));
-        }
-    }
-
-    return 0;
-}
+#endif  // TEST_COMMON_H
