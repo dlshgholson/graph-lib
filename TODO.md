@@ -7,11 +7,12 @@ title: TODO
 - [x] Create makefile.
 - [x] Compiles, but fix linker error(s).
 - [ ] Complete ``isEquivalentTo()``.
+    - Turns out this is the *graph isomorphism problem* and is currently thought to be strictly NP-Hard. I don't bother writing a brute force search.
 - [ ] Add the following algorithms:
     - [x] ``bool isStronglyConnected(Graph)``
     - [x] ``bool isWeaklyConnected(Graph)``
     - [x] BFS.
     - [ ] DFS.
-    - [ ] ``bool isAcyclic(Graph)``.
-    - [ ] ``std::vector<Node> topologicalSort(Graph)``.
+    - [x] ``bool isAcyclic(Graph)``.
+    - [x] ``std::vector<Node> topologicalSort(Graph)``.
     - [x] Dijkstra's shortest path.

@@ -24,101 +24,37 @@
 #include "graph.h"
 #include "types.h"
 
-#include <limits>
 #include <set>
 #include <vector>
-
-#define FLOAT_MAX std::numeric_limits<float>::max()
 
 namespace graphlib {
 
 class Dijkstra {
 public:
-    Dijkstra(Graph *ptr, const EdgeWeights<float> _weights, node_id _start) :
-            g{ptr}, weights{_weights}, start{_start} {
-        unvisited.push(start);
-        distances = std::vector(g->getNumNodes(), FLOAT_MAX);
-        distances.at(start) = 0;
-    }
+    Dijkstra(Graph *ptr, const EdgeWeights<float> _weights, node_id _start);
 
     /*
      * Builds the cache of shortest paths from start node to every other node.
      */
-    void build() {
-        node_id current = getMinCostUnvisited();
-        while (current != INVALID_NODE) {
-            for (node_id node : g->getChildren(current)) {
-                float newDistance = distances.at(current) +
-                                    weights.getWeight(current, node);
-
-                if (newDistance < distances.at(node)) {
-                    distances.at(node) = newDistance;
-                    parents.at(node) = current;
-                }
-
-                if (!unvisited.contains(node) && !visited.contains(node)) {
-                    unvisited.insert(node);
-                }
-            }
-        }
-    }
+    void build();
 
     /*
      * Attempts to find a min-cost path between first and last using Dijkstra's.
      * If no path exists returns an empty path.
      */
-    Path getMinCostPath(node_id node) {
-        Path path(node);
-        node_id current = node;
-
-        while (current != start) {
-            current = parents.at(current);
-            path.insert(0, current);
-        }
-
-        return path;
-    }
+    Path getMinCostPath(node_id node);
 
     /*
      * Returns the distance (cost) between start and node.
      */
-    float getDistance(node_id node) {
-        float total = 0;
-        node_id current = node;
-
-        while (current != start) {
-            node_id parent = parents.at(current);
-
-            total += weights.getWeight(parent, current);
-            current = parent;
-        }
-
-        return total;
-    }
+    float getDistance(node_id node);
 
 private:
     /*
      * Attempts to find the closest unvisited node. If the unvisited set is
      * either empty or all distances are FLOAT_MAX, returns INVALID_NODE.
      */
-    node_id getMinCostUnvisited() {
-        if (unvisited.size() == 0) {
-            return INVALID_NODE;
-        }
-
-        node_id candidate = *unvisited.begin();
-        for (node_id node : unvisited) {
-            if (distances.at(node) < distances.at(candidate)) {
-                candidate = node;
-            }
-        }
-
-        if (candidate < FLOAT_MAX) {
-            return candidate;
-        }
-
-        return INVALID_NODE;
-    }
+    node_id getMinCostUnvisited();
 
 protected:
     const Graph *g;

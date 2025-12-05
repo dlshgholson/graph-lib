@@ -23,102 +23,38 @@
 #include "graph.h"
 #include "types.h"
 
-#include <algorithm> // std::fill
 #include <queue>
 #include <set>
-#include <stack>
 #include <vector>
 
 namespace graphlib {
 
 class BFS {
 public:
-    BFS(const Graph &_g, node_id _start, bool strong) :
-        g{&_g}, start{_start}, strongTraversal{strong} {
-        parents.resize(_g.getNumNodes());
-        queue.push(start);
-    }
+    BFS(const Graph &_g, node_id _start, bool strong);
 
     /*
      * Resets the internal state to perform BFS from the start again.
      */
-    void reset(void) {
-        queue = std::queue<node_id>();
-        queue.push(start);
-
-        visited.clear();
-
-        std::fill(parents.begin(), parents.end(), INVALID_NODE);
-        parents.at(start) = start;
-    }
+    void reset(void);
 
     /*
      * On the first call, returns the start. On subsequent calls, returns a
      * new node not visited previously. After all nodes have been visited
      * returns INVALID_NODE.
      */
-    node_id next(void) {
-        if (queue.empty()) {
-            return INVALID_NODE;
-        }
-
-        node_id current = queue.front();
-        queue.pop();
-        visited.insert(current);
-
-        for (node_id node : g->getChildren(current)) {
-            if (!visited.contains(node)) {
-                parents.at(node) = current;
-                queue.push(node);
-            }
-        }
-
-        if (!strongTraversal) {
-            for (node_id node : g->getParents(current)) {
-                if (!visited.contains(node)) {
-                    parents.at(node) = current;
-                    queue.push(node);
-                }
-            }
-        }
-
-        return current;
-    }
+    node_id next(void);
 
     /*
      * Returns the nodes that were visited so far.
      */
-    const std::set<node_id> getVisited(void) const {
-        return visited;
-    }
+    const std::set<node_id> getVisited(void) const;
 
     /*
      * Given a visited node, returns the path from the start node to it.
      * If the node has not been visited, returns an empty vector.
      */
-    std::vector<node_id> getPath(node_id node) {
-        if (!visited.contains(node)) {
-            return std::vector<node_id>();
-        }
-
-        // Use stack to grow the path quickly, then assign to vector in
-        // reverse order.
-        std::stack<node_id> stack;
-        stack.push(node);
-        node_id current = node;
-        while (current != start) {
-            current = parents.at(current);
-            stack.push(current);
-        }
-
-        std::vector<node_id> path(stack.size());
-        for (int i = stack.size() - 1; i >= 0; i--) {
-            path.at(i) = stack.top();
-            stack.pop();
-        }
-
-        return path;
-    }
+    std::vector<node_id> getPath(node_id node);
 
 protected:
     const Graph *g;

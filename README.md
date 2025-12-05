@@ -43,3 +43,9 @@ I got embarrassingly far before noticing all the shortcomings of the initial des
 To solve this, I make ``Graph`` an abstract data type whose interface contains traversal-related methods. I couldn't find a simple universal method to synchronize the graph and its external structures, so I make ``Graph`` a constant structure and completely delegate graph manipulation to the initial construction.
 
 While I further abstract the ``Graph`` class, I un-abstract how nodes and edges are referred to. Since the graph will not be further modified after creation, nodes can be represented by an unsigned integer from ``0`` to ``numNodes - 1``. Edges are a trivial pair of nodes, and there is no need to make an entire class for it.
+
+After this redesign, development went much more smoothly and I finished up a couple algorithms with test programs. All that's left is to write some documentation.
+
+# Takeaway
+
+This project wasn't exactly life-changing, but I learned again the importance of having a good initial design to build off of. This pretty much concludes my first test project on here, I don't plan on having my next projects be so trite.
